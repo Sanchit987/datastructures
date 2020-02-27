@@ -22,6 +22,7 @@ class linked_list
 		void count();
 		void del_front();
 		void del_end();
+		void searching();
 };
 
 int main()
@@ -35,6 +36,7 @@ int main()
 	cout<<"3. Counting elements. "<<endl;
 	cout<<"4. Deleting an element from front. "<<endl;
 	cout<<"5. Delete from end. "<<endl;
+	cout<<"6. Searching an element. "<<endl;
 	int p;
 	cin>>p;
 	switch(p)
@@ -53,6 +55,8 @@ int main()
 		case 4:x.del_front();
 		       break;
 		case 5:x.del_end();
+		       break;
+		case 6:x.searching();
 		       break;
 	}
 	cout<<"Do you wanna perform any other action?(y/n) : ";
@@ -154,5 +158,37 @@ void linked_list :: del_end()
 		}
 		temp->link = NULL;
 		delete temp2;
+	}
+}
+
+void linked_list :: searching()
+{
+	int ele;
+	cout<<"Enter the element to be searched. "<<endl;
+	cin>>ele;
+	node *temp = start;
+	if(temp == NULL)
+	{
+		cout<<"List contains no element. "<<endl;
+	}
+	else
+	{
+		int pos = -1;
+		bool flag = false;
+		while(temp != NULL)
+		{
+			pos++;
+			if(temp->info == ele)
+			{
+				cout<<"Element present at position : "<< pos<<endl;
+				flag = true;
+				break;
+			}
+			temp = temp->link;
+		}
+		if(!flag)
+		{
+			cout<<"Element not found."<<endl;
+		}
 	}
 }
