@@ -148,6 +148,7 @@ void linked_list :: insertend()
 			t = t->right_link;
 		}
 		new_node->left_link = t;
+		new_node->right_link = NULL;
 		t->right_link = new_node;
 	}
 }
@@ -173,8 +174,11 @@ void linked_list :: del_front()
 	if(temp != NULL)
 	{
 		start = temp->right_link;
-		node *tempo = start;
-		tempo->left_link = NULL;
+		if(start != NULL)
+		{
+			node *tempo = start;
+			tempo->left_link = NULL;
+		}
 		delete temp;
 	}
 	else
