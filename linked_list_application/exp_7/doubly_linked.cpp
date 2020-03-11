@@ -6,7 +6,8 @@ struct node
 	int usn,sem;
 	long long int phno;
 	string name,branch;
-	struct node *link;
+	struct node *left_link;
+	struct node *right_link;
 };
 
 class linked_list
@@ -89,7 +90,8 @@ void linked_list :: insertbeg()
 	temp->sem = sem1;
 	temp->name = name1;
 	temp->branch = branch1;
-	temp->link = start;
+	temp->right_link = start;
+	temp->left_link = NULL;
 	start = temp;
 }
 
@@ -106,7 +108,7 @@ void linked_list :: display()
 		cout<<"branch : "<<temp->branch<<endl;
 		cout<<"Semester : "<<temp->sem<<endl;
 		cout<<"Ph : "<<temp->phno<<endl;
-		temp = temp->link;
+		temp = temp->right_link;
 		i++;
 		cout<<"-----------------"<<endl;
 	}
@@ -133,18 +135,20 @@ void linked_list :: insertend()
 	new_node->name = name1;
 	new_node->branch = branch1;
 	new_node->sem = sem1;
-	new_node->link = NULL;
+	new_node->right_link = NULL;
 	node *t = start;
 	if(start == NULL)
         {
                 start = new_node;
+		new_node->left_link = NULL;
 	}
 	else{
-		while(t->link != NULL)
+		while(t->right_link != NULL)
 		{
-			t = t->link;
+			t = t->right_link;
 		}
-		t->link = new_node;
+		new_node->left_link = t;
+		t->right_link = new_node;
 	}
 }
 
@@ -157,7 +161,7 @@ void linked_list :: count()
         while(temp != NULL)
         {
                 cou++;
-                temp = temp->link;
+                temp = temp->right_link;
         }
 	cout<<cou<<endl;
 }
@@ -168,7 +172,9 @@ void linked_list :: del_front()
 	node *temp = start;
 	if(temp != NULL)
 	{
-		start = temp->link;
+		start = temp->right_link;
+		node *tempo = start;
+		tempo->left_link = NULL;
 		delete temp;
 	}
 	else
@@ -184,20 +190,20 @@ void linked_list :: del_end()
 	{
 		cout<<"List empty. "<<endl;
 	}
-	else if(temp->link == NULL)
+	else if(temp->right_link == NULL)
 	{
 		start = NULL;
 		delete temp;
 	}
 	else
 	{
-		node *temp2 = temp->link;
-		while(temp2->link != NULL)
+		node *temp2 = temp->right_link;
+		while(temp2->right_link != NULL)
 		{
-			temp = temp->link;
-			temp2 = temp2->link;
+			temp = temp->right_link;
+			temp2 = temp2->right_link;
 		}
-		temp->link = NULL;
+		temp->right_link = NULL;
 		delete temp2;
 	}
 }
@@ -225,7 +231,7 @@ void linked_list :: searching()
 				flag = true;
 				break;
 			}
-			temp = temp->link;
+			temp = temp->right_link;
 		}
 		if(!flag)
 		{
