@@ -16,6 +16,10 @@ class linked_list
 		{
 			start = NULL;
 		}
+		node* get_start()
+		{
+			return start;
+		}
 		void insertbeg(int n);
 		void display();
 		void insertend();
@@ -24,6 +28,8 @@ class linked_list
 		void del_end();
 		void searching();
 };
+
+void nth_from_end(struct node *head,int pos);
 
 int main()
 {
@@ -37,7 +43,8 @@ int main()
 	cout<<"4. Deleting an element from front. "<<endl;
 	cout<<"5. Delete from end. "<<endl;
 	cout<<"6. Searching an element. "<<endl;
-	int p;
+	cout<<"7. Finding an element at nth position from end."<<endl;
+	int p,pos;
 	cin>>p;
 	switch(p)
 	{
@@ -57,6 +64,10 @@ int main()
 		case 5:x.del_end();
 		       break;
 		case 6:x.searching();
+		       break;
+		case 7:cout<<"Enter the position from end : "<<endl;
+		       cin>>pos;
+		       nth_from_end(x.get_start(),pos);
 		       break;
 	}
 	cout<<"Do you wanna perform any other action?(y/n) : ";
@@ -191,4 +202,23 @@ void linked_list :: searching()
 			cout<<"Element not found."<<endl;
 		}
 	}
+}
+void nth_from_end(struct node* head,int pos)
+{
+	int len=1,i;
+	struct node* temp = head;
+	while(temp->link != NULL)
+	{
+		temp = temp->link;
+		len++;
+	}
+	if(len<pos)
+		return;
+	temp=head;
+	for(i = 0;i<len - pos - 1;i++)
+	{
+		temp=temp->link;
+	}
+	cout<<"Data = "<<temp->info<<endl;
+	return;
 }
