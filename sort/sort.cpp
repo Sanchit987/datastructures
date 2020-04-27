@@ -4,6 +4,9 @@ using namespace std;
 void bubble_sort(int (&arr)[100],int n);
 void selection_sort(int (&arr)[100],int n);
 void insertion_sort(int (&arr)[100],int n);
+void quick_sort(int (&arr)[100],int low,int high);
+int quick(int (&arr)[100],int low,int high);
+void swap(int *a,int *b);
 void display(int (&arr)[100],int n);
 
 int main()
@@ -27,6 +30,7 @@ label1:
 	cout<<"1. Bubble Sort."<<endl;
 	cout<<"2. Selection Sort."<<endl;
 	cout<<"3. Insertion Sort."<<endl;
+	cout<<"4. Quick Sort."<<endl;
 	cout<<"7. Exit."<<endl;
 	cin>>choice;
 	switch(choice)
@@ -39,6 +43,10 @@ label1:
 			break;
 		case 3:
 			insertion_sort(arr,n);
+			break;
+		case 4:
+			quick_sort(arr,0,n-1);
+			display(arr,n);
 			break;
 		case 7:
 			goto label2;
@@ -106,6 +114,40 @@ void insertion_sort(int (&arr)[100],int n)
 		arr[j+1] = temp;
 	}
 	display(arr,n);
+}
+
+void quick_sort(int (&arr)[100],int low,int high)
+{
+	if(low<high)
+	{
+		int position = quick(arr,low,high);
+		quick_sort(arr,low,position-1);
+		quick_sort(arr,position+1,high);
+	}
+}
+
+int quick(int (&arr)[100],int low,int high)
+{
+	int pivot = arr[high];
+	int i = low-1;
+
+	for(int j = low;j<high;j++)
+	{
+		if(arr[j]<pivot)
+		{
+			i++;
+			swap(arr[i],arr[j]);
+		}
+	}
+	swap(arr[i+1],arr[high]);
+	return (i+1);
+}
+
+void swap(int &a,int &b)
+{
+	int temp = a;
+	a = b;
+	b = temp;
 }
 
 void display(int (&arr)[100],int n)
