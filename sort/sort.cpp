@@ -2,11 +2,18 @@
 using namespace std;
 
 void bubble_sort(int (&arr)[100],int n);
+
 void selection_sort(int (&arr)[100],int n);
+
 void insertion_sort(int (&arr)[100],int n);
+
 void quick_sort(int (&arr)[100],int low,int high);
 int quick(int (&arr)[100],int low,int high);
 void swap(int *a,int *b);
+
+void merge_sort(int (&arr)[100],int low,int high);
+void merge(int (&arr)[100],int low,int mid,int high);
+
 void display(int (&arr)[100],int n);
 
 int main()
@@ -31,6 +38,8 @@ label1:
 	cout<<"2. Selection Sort."<<endl;
 	cout<<"3. Insertion Sort."<<endl;
 	cout<<"4. Quick Sort."<<endl;
+	cout<<"5. Merge Sort."<<endl;
+	cout<<"6. Radix Sort."<<endl;
 	cout<<"7. Exit."<<endl;
 	cin>>choice;
 	switch(choice)
@@ -46,6 +55,10 @@ label1:
 			break;
 		case 4:
 			quick_sort(arr,0,n-1);
+			display(arr,n);
+			break;
+		case 5:
+			merge_sort(arr,0,n);
 			display(arr,n);
 			break;
 		case 7:
@@ -148,6 +161,69 @@ void swap(int &a,int &b)
 	int temp = a;
 	a = b;
 	b = temp;
+}
+
+void merge_sort(int (&arr)[100],int low,int high)
+{
+	if(low<high)
+	{
+		int mid = low+(high-low)/2;
+		merge_sort(arr,low,mid);
+		merge_sort(arr,mid+1,high);
+
+		merge(arr,low,mid,high);
+	}
+}
+
+void merge(int (&arr)[100],int low,int mid,int high)
+{
+	int i,j,k;
+	int n1 = mid-low+1;
+	int n2 = high-mid;
+
+	int l1[n1],l2[n2];
+
+	for(i = 0;i<n1;i++)
+	{
+		l1[i] = arr[low+i];
+	}
+
+	for(j = 0;j<n2;j++)
+	{
+		l2[j] = arr[mid + j + 1];
+	}
+
+	i = 0;
+	j = 0;
+	k = low;
+	while(i<n1 && j<n2)
+	{
+		if(l1[i] <= l2[j])
+		{
+			arr[k] = l1[i];
+			i++;
+		}
+		else
+		{
+			arr[k] = l2[j];
+			j++;
+		}
+		k++;
+	}
+
+	while(i<n1)
+	{
+		arr[k] = l1[i];
+		i++;
+		k++;
+	}
+
+	while(j<n2)
+	{
+		arr[k] = l2[j];
+		j++;
+		k++;
+	}
 }
 
 void display(int (&arr)[100],int n)
