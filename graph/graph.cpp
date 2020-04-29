@@ -1,4 +1,5 @@
 #include<iostream>
+#include<list>
 using namespace std;
 
 class graph
@@ -6,6 +7,7 @@ class graph
 private:
 	int num_ver;
 	int matrix[20][20];
+	bool visited[400];
 public:
 	graph(int vert)
 	{
@@ -17,6 +19,19 @@ public:
 				this->matrix[i][j] = 0;
 			}
 		}
+		for(int i=0;i<vert*vert;i++)
+                {
+			visited[i] = false;
+                }
+
+	}
+	void clearvis()
+	{
+		for(int i=0;i<num_ver*num_ver;i++)
+                {
+                        visited[i] = false;
+                }
+
 	}
 
 	void display()
@@ -41,6 +56,7 @@ public:
 
 	void add_edge(int row,int col);
 	void remove_edge(int row,int col);
+	void DFS(int start);
 };
 
 int main()
@@ -79,6 +95,19 @@ label:
                         g1.remove_edge(row,col);
 			g1.display();
 			break;
+		case 3:
+			cout<<"DFS : ";
+			g1.DFS(0);
+			g1.clearvis();
+			break;
+		/*
+		case 4:
+			cout<<"BFS : ";
+			g1.BFS(0);
+			g1.print_bfs();
+			g1.clearvis();
+			break;
+			*/
 		case 5:
 			g1.display();
 			break;
@@ -114,4 +143,17 @@ void graph :: remove_edge(int row,int col)
 	{
 		cout<<"No edge Exists."<<endl;
 	}
+}
+
+void graph :: DFS(int start)
+{
+    cout << start << " ";
+    visited[start] = true;
+    for (int i = 0; i < num_ver; i++) 
+    {
+        if (matrix[start][i] == 1 && (!visited[i]))
+	{
+            DFS(i);
+        }
+    }
 }
